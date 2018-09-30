@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <div class="title">
+        <button class="hide"> 隱藏 </button>
+        <button class="show"> 顯示 </button>
+        <div class="content">
+            顯示測試文字<br>
+            顯示測試文字<br>
+            顯示測試文字<br>
+            顯示測試文字<br>
+            顯示測試文字<br>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function(){
+            document.querySelector("body").addEventListener("click", function(e){
+                var className = e.target.parentNode.lastElementChild.className;
+                var element = q(className);
+                if(e.target.className === 'hide'){
+                    element.hide(className);
+                }else if(e.target.className === 'show'){
+                    element.show(className);
+                }
+            })
+            
+            function q(className) {
+                var location = document.querySelector(`.${className}`);
+                return {
+                    hide: function(){
+                        location.style.display = 'none';
+                    },
+                    show: function(){
+                        location.style.display = '';
+                    }
+                }
+            }
+            
+        })
+    </script>
+</body>
+</html>

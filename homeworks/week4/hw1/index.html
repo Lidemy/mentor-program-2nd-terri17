@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>計算機</title>
+    <style>
+        .answer {
+            width: 400px;
+            height: 40px;
+            border-style: ridge;
+        }
+
+        .calculator>div:nth-child(2)>div {
+            justify-content: space-between;
+        }
+
+        .zero,
+        .operator,
+        .number,
+        .point,
+        .equal {
+            display: inline-flex;
+            width: 100px;
+            height: 40px;
+            padding: 5px;
+            border-style: ridge;
+            text-align: center;
+        }
+
+        .zero:hover,
+        .operator:hover,
+        .number:hover,
+        .point:hover,
+        .equal:hover {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="calculator">
+        <div class="answer"></div>
+        <div>
+            <div class="zero">AC</div>
+            <div class="operator" id="divided">÷</div>
+        </div>
+        <div>
+            <div class="number">7</div>
+            <div class="number">8</div>
+            <div class="number">9</div>
+            <div class="operator" id="times">×</div>
+        </div>
+        <div>
+            <div class="number">4</div>
+            <div class="number">5</div>
+            <div class="number">6</div>
+            <div class="operator" id="minus">－</div>
+        </div>
+        <div>
+            <div class="number">1</div>
+            <div class="number">2</div>
+            <div class="number">3</div>
+            <div class="operator" id="add">＋</div>
+        </div>
+        <div>
+            <div class="number">0</div>
+            <div class="point">.</div>
+            <div class="equal">=</div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            parameter = init();
+
+            document.querySelector('body').addEventListener('click', function (e) {
+                if (e.target.className === 'number') {
+                    parameter = getNumber(parameter, e);
+                    show(parameter);
+                } else if (e.target.className === 'operator') {
+                    parameter = getOperator(parameter, e);
+                    show(parameter);
+                } else if (e.target.className === 'equal') {
+                    parameter = calaulate(parameter, e);
+                } else if (e.target.className === 'zero') {
+                    parameter = init();
+                } else if (e.target.className === 'point'){
+                    parameter = getNumber(parameter, e);
+                    show(parameter);
+                }                
+            })
+
+            function init() {
+                var parameter = {
+                    number1: '',
+                    operator: '',
+                    number2: '',
+                    answer:''
+                }
+                document.getElementsByClassName('answer')[0].innerHTML = '';
+                return parameter;
+            }
+
+            function getNumber(parameter, e) {
+                if (parameter.operator === '') {
+                    parameter.number1 += e.target.textContent;
+                } else {
+                    parameter.number2 += e.target.textContent;
+                }
+                return parameter;
+            }
+
+            function getOperator(parameter, e) {
+                parameter.operator = e.target.id;
+                return parameter;
+            }
+
+            function calaulate(parameter, e) {
+                switch (parameter.operator) {
+                    case 'add':
+                        parameter.answer = parseFloat(parameter.number1) + parseFloat(parameter.number2);
+                        break;
+                    case 'minus':
+                        parameter.answer = parseFloat(parameter.number1) - parseFloat(parameter.number2);
+                        break;
+                    case 'times':
+                        parameter.answer = parseFloat(parameter.number1) * parseFloat(parameter.number2);
+                        break;
+                    case 'divided':
+                        parameter.answer = parseFloat(parameter.number1) / parseFloat(parameter.number2);
+                        break;
+                    default:
+                        break;
+                }
+
+                document.getElementsByClassName('answer')[0].innerHTML = parameter.answer;
+                return parameter;
+            }
+
+            function show(parameter){
+                var change_operator;
+                switch (parameter.operator) {
+                    case 'add':
+                        change_operator = '＋' ;
+                        break;
+                    case 'minus':
+                    change_operator = '－' ;
+                        break;
+                    case 'times':
+                    change_operator = '×' ;
+                        break;
+                    case 'divided':
+                    change_operator = '÷' ;
+                        break;
+                    default:
+                    change_operator = ''; 
+                        break;
+                }
+                var print = `${parameter.number1}${change_operator}${parameter.number2}`
+                document.getElementsByClassName('answer')[0].innerHTML = print;
+            }
+        })
+
+    </script>
+</body>
+
+</html>
